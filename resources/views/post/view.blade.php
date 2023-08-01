@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Str;
 
 /** @var \App\Models\Post $post */
@@ -18,7 +17,7 @@ use Illuminate\Support\Str;
                 </a>
                 <div class="bg-white flex flex-col justify-start p-6">
                     @foreach($post->categories as $category)
-                        <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">
+                        <a href="{{route('by-category', $category)}}" class="text-blue-700 text-sm font-bold uppercase pb-4">
                             {{$category->title}}
                         </a>
                     @endforeach
@@ -62,5 +61,6 @@ use Illuminate\Support\Str;
                 </div>
             </div>
         </section>
+        <x-sidebar></x-sidebar>
     </div>
 </x-app-layout>

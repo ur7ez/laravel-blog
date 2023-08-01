@@ -10,6 +10,10 @@ class ListPosts extends ListRecords
 {
     protected static string $resource = PostResource::class;
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     protected function getActions(): array
     {
         return [
