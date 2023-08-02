@@ -38,10 +38,10 @@ class PostResource extends Resource
                                     ->required()
                                     ->maxLength(2048),
                             ]),
-                        Forms\Components\RichEditor::make('body')
-                            ->required(),
-                        Forms\Components\Toggle::make('active')
-                            ->required(),
+                        Forms\Components\RichEditor::make('body')->required(),
+                        Forms\Components\TextInput::make('meta_title'),
+                        Forms\Components\TextInput::make('meta_description'),
+                        Forms\Components\Toggle::make('active')->required(),
                         Forms\Components\DateTimePicker::make('published_at'),
                     ])->columnSpan(8),
                 Forms\Components\Card::make()

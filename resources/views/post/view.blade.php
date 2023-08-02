@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Str;
 
 /** @var \App\Models\Post $post */
@@ -6,21 +7,24 @@ use Illuminate\Support\Str;
 /** @var \App\Models\Post $prev */
 ?>
 
-<x-app-layout>
+<x-app-layout :meta-title="$post->meta_title ?: $post->title" :meta-description="$post->meta_description">
     <div class="flex">
         <!-- Post Section -->
         <section class="w-full md:w-2/3 flex flex-col items-center px-3">
-            <article class="flex flex-col shadow my-4">
+            <article class="bg-white flex flex-col shadow my-4">
                 <!-- Article Image -->
                 <a href="#" class="hover:opacity-75">
                     <img src="{{$post->getThumbnail()}}">
                 </a>
                 <div class="bg-white flex flex-col justify-start p-6">
-                    @foreach($post->categories as $category)
-                        <a href="{{route('by-category', $category)}}" class="text-blue-700 text-sm font-bold uppercase pb-4">
-                            {{$category->title}}
-                        </a>
-                    @endforeach
+                    <div class="flex gap-4">
+                        @foreach($post->categories as $category)
+                            <a href="{{route('by-category', $category)}}"
+                               class="text-blue-700 text-sm font-bold uppercase pb-4">
+                                {{$category->title}}
+                            </a>
+                        @endforeach
+                    </div>
                     <h1 class="text-3xl font-bold hover:text-gray-700 pb-4">
                         {{ $post->title }}
                     </h1>
