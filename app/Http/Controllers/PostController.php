@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostView;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -43,9 +46,10 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      * @param Post $post
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     * @param Request $request
+     * @return Application|Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
-    public function show(Post $post)
+    public function show(Post $post, Request $request)
     {
         if (!$post->active || $post->published_at > Carbon::now()) {
             throw new NotFoundHttpException();
@@ -66,6 +70,15 @@ class PostController extends Controller
             ->orderBy('published_at', 'asc')
             ->limit(1)
             ->first();
+
+        $user = $request->user();
+        PostView::create([
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'post_id' => $post->id,
+            'user_id' => $user?->id,
+        ]);
+
         return view('post.view', compact('post', 'prev', 'next'));
     }
 
