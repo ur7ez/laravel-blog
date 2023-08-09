@@ -2,14 +2,22 @@
 /** @var $posts \Illuminate\Pagination\LengthAwarePaginator */
 ?>
 
-<x-app-layout meta-description="URCode personal blog about coding tutorials">
-    <!-- Posts Section -->
-    <section class="w-full md:w-2/3 flex flex-col items-center px-3">
-        @foreach($posts as $post)
-            <x-post-item :post="$post"></x-post-item>
-        @endforeach
+<x-app-layout meta-title="URCode Blog"
+              meta-description="URCode personal blog about coding tutorials">
+    <div class="container max-w-4xl mx-auto py-6">
 
-        {{$posts->onEachSide(1)->links()}}
-    </section>
-    <x-sidebar></x-sidebar>
+        <!-- Posts Section -->
+        <section class="w-full md:w-2/3 px-3">
+            <div class="flex flex-col items-center">
+                @foreach($posts as $post)
+                    <x-post-item :post="$post"/>
+                @endforeach
+            </div>
+            {{$posts->links()}}
+        </section>
+
+        <!-- Sidebar Section -->
+        <x-sidebar/>
+
+    </div>
 </x-app-layout>
