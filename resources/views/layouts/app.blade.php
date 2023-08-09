@@ -46,8 +46,7 @@
         </a>
     </div>
     <div :class="open ? 'block': 'hidden'" class="w-full flex-grow sm:flex sm:items-center sm:w-auto">
-        <div
-            class="w-full container mx-auto flex flex-col sm:flex-row items-center justify-between text-sm font-bold uppercase mt-0 px-6 py-2">
+        <div class="w-full container mx-auto flex flex-col sm:flex-row items-center justify-between text-sm font-bold uppercase mt-0 px-6 py-2">
             <div>
                 <a href="{{route('home')}}"
                    class="hover:bg-blue-600 hover:text-white rounded py-2 px-4 mx-2">
@@ -111,11 +110,11 @@
     </div>
 </nav>
 
-<div class="container mx-auto py-6">
+<div class="container mx-auto py-4 px-2">
     {{ $slot }}
 </div>
 
-<footer class="w-full border-t bg-white pb-12">
+<footer class="w-full border-t bg-white">
     <div class="w-full container mx-auto flex flex-col items-center">
         <div class="py-6">&copy; URCodeBlog.com</div>
     </div>

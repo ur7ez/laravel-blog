@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -20,20 +21,93 @@ class PostController extends Controller
     public function home(): View
     {
         // Latest post
+        $latestPost = Post::query()
+            ->where('active', '=', 1)
+            ->whereDate('published_at', '<', Carbon::now())
+            ->orderBy('published_at', 'desc')
+            ->limit(1)
+            ->first();
 
-        // Show the most popular 3 posts based on upvotes
+        // Show the most popular X posts based on upvotes
+        $popularPosts = Post::query()
+            ->leftJoin('upvote_downvotes', 'posts.id', '=', 'upvote_downvotes.post_id')
+            ->select('posts.*', DB::raw('COUNT(upvote_downvotes.id) as upvote_count'))
+            ->where(function ($query) {
+                $query
+                    ->whereNull('upvote_downvotes.is_upvote')
+                    ->orWhere('upvote_downvotes.is_upvote', '=', 1);
+            })
+            ->where('active', '=', 1)
+            ->whereDate('published_at', '<', Carbon::now())
+            ->orderByDesc('upvote_count')
+            ->groupBy('posts.id')
+            ->limit(5)
+            ->get();
 
-        // If authorized - show recommended posts based on user upvotes
-        // Not authorized - popular posts based on views
+        // Get recommended posts:
+        $user = auth()->user();
+        if ($user) {
+            // If authorized - show recommended posts based on user upvotes
+            $leftJoin = '(SELECT cp.category_id, cp.post_id
+                FROM upvote_downvotes
+                JOIN category_post cp ON upvote_downvotes.post_id = cp.post_id
+                WHERE upvote_downvotes.is_upvote = 1
+                    AND upvote_downvotes.user_id = ?) AS t1';
+
+            $recommendedPosts = Post::query()
+                ->leftJoin('category_post as cp', 'posts.id', '=', 'cp.post_id')
+                ->leftJoin(DB::raw($leftJoin), function ($join) {
+                    $join->on('t1.category_id', '=', 'cp.category_id')
+                        ->on('t1.post_id', '<>', 'cp.post_id');
+                })
+                ->setBindings([$user->id])
+                ->select('posts.*')
+                ->where('active', '=', 1)
+                ->whereDate('published_at', '<', Carbon::now())
+                ->where('posts.id', '<>', DB::raw('t1.post_id'))
+                ->limit(3)
+                ->get();
+        } else {
+            // Not authorized - popular posts based on views
+            $recommendedPosts = Post::query()
+                ->leftJoin('post_views', 'posts.id', '=', 'post_views.post_id')
+                ->select('posts.*', DB::raw('COUNT(post_views.id) as view_count'))
+                ->where('active', '=', 1)
+                ->whereDate('published_at', '<', Carbon::now())
+                ->orderByDesc('view_count')
+                ->groupBy('posts.id')
+                ->limit(3)
+                ->get();
+        }
 
         // Show recent categories with their latest posts
+        $categories = Category::query()
+            ->whereHas('posts', function ($query) {
+                $query
+                    ->where('active', '=', 1)
+                    ->whereDate('published_at', '<', Carbon::now());
+            })
+            ->select('categories.*')
+            ->selectRaw('MAX(posts.published_at) as max_date')
+            ->leftJoin('category_post', 'categories.id', '=', 'category_post.category_id')
+            ->leftJoin('posts', 'posts.id', '=', 'category_post.post_id')
+            ->orderByDesc('max_date')
+            ->groupBy([
+                'categories.id',
+                'categories.title',
+                'categories.slug',
+                'categories.created_at',
+                'categories.updated_at',
+            ])
+            ->limit(5)
+            ->get();
 
-        $posts = Post::query()
-            ->where('active', '=', 1)
-            ->whereDate('published_at', '<=', Carbon::now())
-            ->orderBy('published_at', 'desc')
-            ->paginate(10);
-        return view('home', compact('posts'));
+        return view('home', compact(
+            'latestPost',
+            'popularPosts',
+            'recommendedPosts',
+            'categories'
+        ));
     }
 
     /**
