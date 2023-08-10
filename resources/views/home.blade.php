@@ -69,21 +69,24 @@ use \App\Models\Post
         </div>
 
         <!-- Latest Categories -->
-        <div>
-            <h2 class="text-lg sm:text-xl font-bold text-blue-500 uppercase pb-1 border-b-2 border-blue-500 mb-3">
-                Recent Categories
-            </h2>
-            @foreach($categories as $category)
+        @foreach($categories as $category)
+            <div>
+                <h2 class="uppercase text-blue-500 text-lg sm:text-xl font-bold pb-1 border-b-2 border-blue-500 mb-3">
+                    Category
+                    <a href="{{route('by-category', $category)}}" class="">
+                        "{{$category->title}}" <i class="fas fa-arrow-right"></i>
+                    </a>
+                </h2>
+
                 <div class="mb-6">
-                    <h3 class="text-xl font-bold text-center">{{ $category->title }}</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         @foreach($category->publishedPosts()->get() as $post)
                             <x-post-item :post="$post" :show-author="false"/>
                         @endforeach
                     </div>
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @endforeach
 
     </div>
 </x-app-layout>

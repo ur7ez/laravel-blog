@@ -3,13 +3,22 @@
 /** @var $category App\Models\Category */
 ?>
 
-<x-app-layout :meta-title="'URCode\'s Blog | Posts by category ' . $category->title" meta-description="By category description">
-    <!-- Posts Section -->
-    <section class="w-full md:w-2/3 flex flex-col items-center px-3">
-        @foreach($posts as $post)
-            <x-post-item :post="$post"></x-post-item>
-        @endforeach
-        {{$posts->onEachSide(1)->links()}}
-    </section>
-    <x-sidebar></x-sidebar>
+<x-app-layout :meta-title="'URCode\'s Blog | ' . $category->title"
+              :meta-description="'Posts filtered by category ' . $category->title">
+    <div class="container mx-auto flex flex-wrap py-4">
+
+        <!-- Posts Section -->
+        <section class="w-full md:w-2/3 px-3">
+            <div class="flex flex-col items-center">
+                @foreach($posts as $post)
+                    <x-post-item :post="$post"/>
+                @endforeach
+            </div>
+            {{ $posts->links() }}
+        </section>
+
+        <!-- Sidebar Section -->
+        <x-sidebar/>
+
+    </div>
 </x-app-layout>
