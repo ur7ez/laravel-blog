@@ -10,11 +10,11 @@ use Illuminate\Support\Str;
 <x-app-layout :meta-title="$post->meta_title ?: $post->title" :meta-description="$post->meta_description">
     <div class="flex">
         <!-- Post Section -->
-        <section class="w-full md:w-2/3 flex flex-col items-center px-3">
+        <section class="w-full md:w-2/3 px-3">
             <article class="bg-white flex flex-col shadow my-4">
                 <!-- Article Image -->
-                <a href="#" class="hover:opacity-75">
-                    <img src="{{$post->getThumbnail()}}">
+                <a href="javascript:void(0)" role="button">
+                    <img src="{{$post->getThumbnail()}}" class="hover:opacity-75" alt="">
                 </a>
                 <div class="bg-white flex flex-col justify-start p-6">
                     <div class="flex gap-4">
@@ -39,8 +39,8 @@ use Illuminate\Support\Str;
                 </div>
             </article>
 
-            <div class="w-full flex pt-6">
-                <div class="flex w-1/2">
+            <div class="w-full flex">
+                <div class="flex w-1/2 mr-3">
                     @if($prev)
                         <a href="{{route('view', $prev)}}"
                            class="block w-full bg-white shadow hover:shadow-md text-left p-6">
@@ -65,7 +65,10 @@ use Illuminate\Support\Str;
                     @endif
                 </div>
             </div>
+
+            <livewire:comments :post="$post"/>
         </section>
-        <x-sidebar></x-sidebar>
+
+        <x-sidebar/>
     </div>
 </x-app-layout>

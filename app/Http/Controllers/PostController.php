@@ -21,8 +21,7 @@ class PostController extends Controller
     public function home(): View
     {
         // Latest post
-        $latestPost = Post::query()
-            ->where('active', '=', 1)
+        $latestPost = Post::where('active', '=', 1)
             ->whereDate('published_at', '<', Carbon::now())
             ->orderBy('published_at', 'desc')
             ->limit(1)
@@ -138,16 +137,14 @@ class PostController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $next = Post::query()
-            ->where('active', true)
+        $next = Post::where('active', true)
             ->whereDate('published_at', '<=', Carbon::now())
             ->whereDate('published_at', '<', $post->published_at)
             ->orderBy('published_at', 'desc')
             ->limit(1)
             ->first();
 
-        $prev = Post::query()
-            ->where('active', true)
+        $prev = Post::where('active', true)
             ->whereDate('published_at', '<=', Carbon::now())
             ->whereDate('published_at', '>', $post->published_at)
             ->orderBy('published_at', 'asc')

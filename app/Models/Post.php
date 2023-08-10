@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +10,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
+/**
+ * @mixin Builder
+ * @property mixed $id
+ * @property string $title
+ * @property string $body
+ * @property string $slug
+ * @property string $thumbnail
+ * @property bool|int $active
+ * @property string $published_at
+ */
 class Post extends Model
 {
     use HasFactory;

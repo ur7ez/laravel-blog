@@ -10,7 +10,7 @@ use App\Models\TextWidget;
         <h3 class="text-xl font-semibold mb-3">All Categories</h3>
         @foreach($categories as $category)
             <a href="{{route('by-category', $category)}}"
-               class="text-semibold block py-2 px-3 rounded {{request('category')?->slug === $category->slug ? 'text-white bg-blue-600' : ''}}">
+               class="hover:bg-blue-600 hover:text-white text-semibold block py-2 px-3 rounded {{request('category')?->slug === $category->slug ? 'text-white bg-blue-600' : ''}}">
                 {{$category->title}} ({{$category->total}})
             </a>
         @endforeach
