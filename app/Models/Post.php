@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 /**
@@ -18,7 +19,7 @@ use Illuminate\Support\Str;
  * @property string $slug
  * @property string $thumbnail
  * @property bool|int $active
- * @property string $published_at
+ * @property Carbon $published_at
  */
 class Post extends Model
 {
@@ -60,7 +61,6 @@ class Post extends Model
 
     public function getFormattedDate()
     {
-        /** @var \Illuminate\Support\Carbon $published_at */
         return $this->published_at->format('F jS Y');
     }
 

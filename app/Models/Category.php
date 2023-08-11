@@ -22,7 +22,7 @@ class Category extends Model
     {
         return $this->posts()
             ->where('active', '=', 1)
-            ->whereDate('published_at', '<', Carbon::now())
+            ->whereDate('published_at', '<=', Carbon::now())
             ->limit($limit);
     }
 }

@@ -22,7 +22,7 @@ class PostController extends Controller
     {
         // Latest post
         $latestPost = Post::where('active', '=', 1)
-            ->whereDate('published_at', '<', Carbon::now())
+            ->whereDate('published_at', '<=', Carbon::now())
             ->orderBy('published_at', 'desc')
             ->limit(1)
             ->first();
@@ -37,7 +37,7 @@ class PostController extends Controller
                     ->orWhere('upvote_downvotes.is_upvote', '=', 1);
             })
             ->where('active', '=', 1)
-            ->whereDate('published_at', '<', Carbon::now())
+            ->whereDate('published_at', '<=', Carbon::now())
             ->orderByDesc('upvote_count')
             ->groupBy('posts.id')
             ->limit(5)
@@ -62,7 +62,7 @@ class PostController extends Controller
                 ->setBindings([$user->id])
                 ->select('posts.*')
                 ->where('active', '=', 1)
-                ->whereDate('published_at', '<', Carbon::now())
+                ->whereDate('published_at', '<=', Carbon::now())
                 ->where('posts.id', '<>', DB::raw('t1.post_id'))
                 ->limit(3)
                 ->get();
@@ -72,7 +72,7 @@ class PostController extends Controller
                 ->leftJoin('post_views', 'posts.id', '=', 'post_views.post_id')
                 ->select('posts.*', DB::raw('COUNT(post_views.id) as view_count'))
                 ->where('active', '=', 1)
-                ->whereDate('published_at', '<', Carbon::now())
+                ->whereDate('published_at', '<=', Carbon::now())
                 ->orderByDesc('view_count')
                 ->groupBy('posts.id')
                 ->limit(3)
@@ -84,7 +84,7 @@ class PostController extends Controller
             ->whereHas('posts', function ($query) {
                 $query
                     ->where('active', '=', 1)
-                    ->whereDate('published_at', '<', Carbon::now());
+                    ->whereDate('published_at', '<=', Carbon::now());
             })
             ->select('categories.*')
             ->selectRaw('MAX(posts.published_at) as max_date')
