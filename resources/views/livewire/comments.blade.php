@@ -12,5 +12,4 @@ use App\Models\Post;
     @foreach($comments as $comment)
         <livewire:comment-item :comment="$comment" wire:key="comment-{{ $comment->id }}"/>
     @endforeach
-
 </div>

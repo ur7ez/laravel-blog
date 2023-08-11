@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Comment;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
 class Comments extends Component
@@ -13,15 +14,12 @@ class Comments extends Component
     protected $listeners = [
         'commentCreated' => 'commentCreated',
         'commentDeleted' => 'commentDeleted',
-        'commentReplied' => 'commentReplied',
     ];
 
     public function mount(Post $post)
     {
         $this->post = $post;
-        $this->comments = Comment::where('post_id', '=', $this->post->id)
-            ->orderByDesc('created_at')
-            ->get();
+        $this->comments = $this->selectComments();
     }
 
     public function render()
@@ -32,7 +30,9 @@ class Comments extends Component
     public function commentCreated(int $id)
     {
         $comment =  Comment::where('id', '=', $id)->first();
-        $this->comments = $this->comments->prepend($comment);
+        if (!$comment->parent_id) {
+            $this->comments = $this->comments->prepend($comment);
+        }
     }
 
     public function commentDeleted(int $id)
@@ -42,8 +42,15 @@ class Comments extends Component
         });
     }
 
-    public function commentReplied(int $id)
+    /**
+     * @return Comment[]|Collection
+     */
+    public function selectComments(): array|Collection
     {
-
+        return Comment::where('post_id', '=', $this->post->id)
+            ->with(['post', 'user', 'comments'])
+            ->whereNull('parent_id')
+            ->orderByDesc('created_at')
+            ->get();
     }
 }

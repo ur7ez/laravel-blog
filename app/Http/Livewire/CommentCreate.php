@@ -11,12 +11,14 @@ class CommentCreate extends Component
     public string $comment = '';
     public Post $post;
     public ?Comment $commentModel = null;
+    public ?Comment $parentComment = null;
 
-    public function mount(Post $post, $commentModel = null)
+    public function mount(Post $post, $commentModel = null, $parentComment = null)
     {
         $this->post = $post;
         $this->commentModel = $commentModel;
         $this->comment =  $commentModel ? $commentModel->comment : '';
+        $this->parentComment = $parentComment;
     }
 
     public function render()
@@ -32,6 +34,7 @@ class CommentCreate extends Component
         }
 
         if ($this->commentModel) {
+            // edit own comment
             if ($this->commentModel->user_id != $user->id) {
                 return response('You are not allowed to perform this action', 403);
             }
@@ -42,10 +45,12 @@ class CommentCreate extends Component
             $this->comment = '';
             $this->emitUp('commentUpdated');
         } else {
+            // create new comment
             $comment = Comment::create([
                 'comment' => $this->comment,
                 'post_id' => $this->post->id,
                 'user_id' => $user->id,
+                'parent_id' => $this->parentComment?->id,
             ]);
             $this->emitUp('commentCreated', $comment->id);
             $this->comment = '';

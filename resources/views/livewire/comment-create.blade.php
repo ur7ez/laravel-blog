@@ -1,9 +1,9 @@
 <div>
     <div x-data="{
-            focused: false,
+            focused: {{ $parentComment ? 'true' : 'false' }},
             isEdit: {{ $commentModel ? 'true' : 'false' }},
             init() {
-                if (this.isEdit) {
+                if (this.isEdit || this.focused) {
                     this.$refs.input.focus();
                 }
                 $wire.on('commentCreated', () => {
@@ -22,7 +22,7 @@
                     class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mr-3">
                 Submit
             </button>
-            <button @click="focused = isEdit = false; $wire.emitUp('cancelEditing')" type="button" class="">
+            <button @click="focused = false; isEdit = false; $wire.emitUp('cancelEditing')" type="button" class="">
                 Cancel
             </button>
         </div>
