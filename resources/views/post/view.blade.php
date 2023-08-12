@@ -31,10 +31,10 @@ use Illuminate\Support\Str;
                     <p href="#" class="text-sm pb-8">
                         By <a href="#" class="font-semibold hover:text-gray-800">{{ $post->user->name }}</a>, Published on {{$post->getFormattedDate()}} | {{ $post->human_read_time }}
                     </p>
-                    <div>
+                    <div class="pb-4">
                         {!! $post->body !!}
                     </div>
-
+                    <!-- Votes Section -->
                     <livewire:upvote-downvote :post="$post"/>
                 </div>
             </article>
