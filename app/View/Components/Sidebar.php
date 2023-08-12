@@ -30,7 +30,7 @@ class Sidebar extends Component
             ->select('categories.title', 'categories.slug', DB::raw('count(*) AS total'))
             ->where('active', '=', 1)
             ->whereDate('published_at', '<=', Carbon::now())
-            ->groupBy('categories.id')
+            ->groupBy(['categories.id', 'categories.title', 'categories.slug'])
             ->orderByDesc('total')
             ->get();
         return view('components.sidebar', compact('categories'));
