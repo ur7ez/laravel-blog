@@ -19,7 +19,9 @@ use \App\Models\Post
                 <h2 class="text-lg sm:text-xl font-bold text-blue-500 uppercase pb-1 border-b-2 border-blue-500 mb-3">
                     Latest Post
                 </h2>
-                <x-post-item :post="$latestPost"/>
+                @if ($latestPost)
+                    <x-post-item :post="$latestPost"/>
+                @endif
             </div>
 
             <!-- Popular Posts -->
