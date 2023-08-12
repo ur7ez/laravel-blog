@@ -179,4 +179,23 @@ class PostController extends Controller
             ->paginate(10);
         return view('post.index', compact('posts', 'category'));
     }
+
+    public function search(Request $request)
+    {
+        $q = preg_quote(trim($request->get('q')), '/');
+
+        $posts = Post::query()
+            ->where('active', '=', 1)
+            ->whereDate('published_at', '<=', Carbon::now())
+            ->where(function ($query) use ($q) {
+                $query->where('title', 'like', "%$q%")
+                    ->orWhere('body', 'like', "%$q%");
+            })
+            ->orderBy('published_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+        $postsTotal = $posts->total();
+
+        return view('post.search', compact('posts', 'postsTotal'));
+    }
 }

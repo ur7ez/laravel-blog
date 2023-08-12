@@ -46,7 +46,8 @@
         </a>
     </div>
     <div :class="open ? 'block': 'hidden'" class="w-full flex-grow sm:flex sm:items-center sm:w-auto">
-        <div class="md:container w-full mx-auto flex flex-col sm:flex-row items-center justify-between text-sm font-bold mt-0 px-6 py-2">
+        <div
+            class="md:container w-full mx-auto flex flex-col sm:flex-row items-center justify-between text-sm font-bold mt-0 px-6 py-2">
             <div>
                 <a href="{{route('home')}}"
                    class="hover:bg-blue-600 hover:text-white rounded py-2 px-4 mx-2">
@@ -63,17 +64,27 @@
                     About Us
                 </a>
             </div>
-            <div>
+            <div class="flex items-center">
+                <div class="">
+                    <form method="get" action="{{route('search')}}">
+                        <input type="search" name="q" value="{{request()->get('q')}}" placeholder="type and hit to search anything"
+                               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"/>
+                    </form>
+                </div>
                 @auth
                     <!-- Settings Dropdown -->
                     <div class="flex sm:items-center">
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
-                                <button class="inline-flex items-center hover:bg-blue-600 hover:text-white rounded py-2 px-4 mx-2 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                <button
+                                    class="inline-flex items-center hover:bg-blue-600 hover:text-white rounded py-2 px-4 mx-2 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                     <div class="uppercase">{{ Auth::user()->name }}</div>
                                     <div class="ml-1">
-                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                  clip-rule="evenodd"/>
                                         </svg>
                                     </div>
                                 </button>

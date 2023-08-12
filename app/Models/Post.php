@@ -54,6 +54,12 @@ class Post extends Model
         return $this->belongsToMany(Category::class, 'category_post', 'post_id', 'category_id');
     }
 
+    public function highlightInTitle(string $q, string $bgClass = 'bg-yellow-200'): string
+    {
+        $pattern = '/' . preg_quote($q, '/') . '/i';
+        return preg_replace($pattern, "<span class=\"$bgClass\">$0</span>", $this->title);
+    }
+
     public function shortBody(int $words = 30): string
     {
         return Str::words(strip_tags($this->body), $words);
