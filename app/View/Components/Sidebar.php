@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Models\Category;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +26,10 @@ class Sidebar extends Component
     {
         $categories = Category::query()
             ->join('category_post', 'categories.id', '=', 'category_post.category_id')
+            ->join('posts', 'posts.id', '=', 'category_post.post_id')
             ->select('categories.title', 'categories.slug', DB::raw('count(*) AS total'))
+            ->where('active', '=', 1)
+            ->whereDate('published_at', '<=', Carbon::now())
             ->groupBy('categories.id')
             ->orderByDesc('total')
             ->get();
