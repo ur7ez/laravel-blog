@@ -168,9 +168,11 @@ class PostController extends Controller
      */
     public function byCategory(Category $category)
     {
-        $posts = Post::query()
+        $categoryId = $category->id;
+        $posts = Post::with('categories')
             ->join('category_post', 'posts.id', '=', 'category_post.post_id')
-            ->where('category_post.category_id', '=', $category->id)
+            ->select('posts.*')
+            ->where('category_post.category_id', $categoryId)
             ->where('active', '=', 1)
             ->whereDate('published_at', '<=', Carbon::now())
             ->orderBy('published_at', 'desc')

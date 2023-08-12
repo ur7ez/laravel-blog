@@ -51,7 +51,7 @@ class Post extends Model
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'category_post', 'post_id', 'category_id');
     }
 
     public function shortBody(int $words = 30): string

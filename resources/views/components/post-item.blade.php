@@ -1,5 +1,8 @@
 <?php
-/** @var \App\Models\Post $post */
+
+use  App\Models\Post;
+
+/** @var Post $post */
 ?>
 
 <article class="bg-white flex flex-col shadow my-4">
