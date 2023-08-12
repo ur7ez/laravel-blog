@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $user_id
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at
+ * @property int $parent_id
  */
 class Comment extends Model
 {
