@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
         $adminRole = Role::create(['name' => 'admin']);
         $adminUser->assignRole($adminRole);
 
-         \App\Models\Post::factory(50)->create();
-         \App\Models\User::factory()->create([
-             'name' => 'Test User',
-             'email' => 'test@example.com',
-         ]);
+//         \App\Models\User::factory()->create([
+//             'name' => 'Test User',
+//             'email' => 'test@example.com',
+//         ]);
+//         \App\Models\Post::factory(50)->create();
     }
 }
