@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Resources\PostResource\Widgets;
 
 use App\Models\PostView;
 use App\Models\UpvoteDownvote;
@@ -11,7 +11,7 @@ class PostOverview extends Widget
 {
     protected int | string | array $columnSpan = 3;
     public ?Model $record = null;
-    protected static string $view = 'filament.widgets.post-overview';
+    protected static string $view = 'filament.resources.post-resource.widgets.post-overview';
 
     protected function getViewData(): array
     {
