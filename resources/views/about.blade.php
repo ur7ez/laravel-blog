@@ -1,4 +1,4 @@
-<x-app-layout meta-title="URCode's Blog | About us" meta-description="Lorem ipsum">
+<x-app-layout meta-title="About Us" meta-description="about us page">
     <section class="w-full flex flex-col items-center px-3">
         <article class="w-full flex flex-col shadow my-4">
             <!-- Article Image -->

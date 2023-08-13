@@ -23,8 +23,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Filament::serving(function () {
             Filament::registerNavigationItems([
-                NavigationItem::make('urcode.com')
-                    ->url('https://urcode.com', shouldOpenInNewTab: true)
+                NavigationItem::make('URCodeBlog.com')
+                    ->url('https://URCodeBlog.com', shouldOpenInNewTab: true)
                     ->icon('heroicon-o-globe-alt')
                     ->group('Content Creator')
                     ->sort(3),

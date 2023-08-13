@@ -9,7 +9,7 @@ use \App\Models\Post
 /** @var $categories Category[] */
 ?>
 
-<x-app-layout meta-title="URCode Blog"
+<x-app-layout meta-title=""
               meta-description="URCode personal blog about coding tutorials">
     <div class="container max-w-4xl mx-auto">
 

@@ -3,7 +3,7 @@
 /** @var $category App\Models\Category */
 ?>
 
-<x-app-layout :meta-title="'URCode\'s Blog | ' . $category->title"
+<x-app-layout :meta-title="$category->title"
               :meta-description="'Posts filtered by category ' . $category->title">
     <div class="container mx-auto flex flex-wrap py-4">
 

@@ -6,8 +6,8 @@ use App\Models\Post;
 /** @var int $postsTotal */
 ?>
 
-<x-app-layout :meta-title="'URCode\'s Blog | Search results'"
-              :meta-description="'Posts filtered by search phrase'">
+<x-app-layout meta-title='Search results'
+              meta-description='Posts filtered by search phrase'>
     <div class="container mx-auto flex flex-wrap py-4">
         <!-- Posts Section -->
         <section class="w-full md:w-2/3 px-3">

@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'URCode Blog'),
+    'name' => env('APP_NAME', 'URCode\'s Blog'),
 
     /*
     |--------------------------------------------------------------------------
