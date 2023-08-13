@@ -6,7 +6,7 @@
 
 <x-filament::widget class="grid grid-cols-3 gap-3">
     <x-filament::card>
-        <h2 class="text-ld sm:text-xl font-bold tracking-light">
+        <h2 class="text-lg sm:text-xl font-bold tracking-tight">
             Views
         </h2>
         <div class="flex gap-2">
@@ -20,7 +20,7 @@
         </div>
     </x-filament::card>
     <x-filament::card>
-        <h2 class="text-ld sm:text-xl font-bold tracking-light">
+        <h2 class="text-lg sm:text-xl font-bold tracking-tight">
             Upvotes
         </h2>
         <div class="flex gap-2">
@@ -33,7 +33,7 @@
         </div>
     </x-filament::card>
     <x-filament::card>
-        <h2 class="text-ld sm:text-xl font-bold tracking-light">
+        <h2 class="text-lg sm:text-xl font-bold tracking-tight">
             Downvotes
         </h2>
         <div class="flex gap-2">
