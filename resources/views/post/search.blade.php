@@ -16,11 +16,11 @@ use App\Models\Post;
                     <div class="">
                         <a href="{{route('view', $post)}}" title="click to read more">
                             <h2 class="text-blue-500 font-bold text-lg sm:text-xl mb-2">
-                                {!! $post->highlightInTitle(request()->get('q')) !!}
+                                {!! $post->titleHighlighted(request()->get('q'), 'bg-yellow-200') !!}
                             </h2>
                         </a>
                         <div class="">
-                            {{$post->shortBody()}}
+                            {!! $post->bodyHighlighted(request()->get('q'), 'bg-yellow-200') !!}
                         </div>
                     </div>
                     @if ($postsTotal > 1)

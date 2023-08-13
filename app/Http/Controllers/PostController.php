@@ -208,20 +208,22 @@ class PostController extends Controller
 
     public function search(Request $request)
     {
-        $q = preg_quote(trim($request->get('q')), '/');
+        $q = trim($request->get('q'));
+        if (!empty($q)) {
+            $q = preg_quote($q, '/');
 
-        $posts = Post::query()
-            ->where('active', '=', 1)
-            ->whereDate('published_at', '<=', Carbon::now())
-            ->where(function ($query) use ($q) {
-                $query->where('title', 'like', "%$q%")
-                    ->orWhere('body', 'like', "%$q%");
-            })
-            ->orderBy('published_at', 'desc')
-            ->paginate(10)
-            ->withQueryString();
-        $postsTotal = $posts->total();
-
+            $posts = Post::query()
+                ->where('active', '=', 1)
+                ->whereDate('published_at', '<=', Carbon::now())
+                ->where(function ($query) use ($q) {
+                    $query->where('title', 'like', "%$q%")
+                        ->orWhere('body', 'like', "%$q%");
+                })
+                ->orderBy('published_at', 'desc')
+                ->paginate(10)
+                ->withQueryString();
+            $postsTotal = $posts->total();
+        }
         return view('post.search', compact('posts', 'postsTotal'));
     }
 }
